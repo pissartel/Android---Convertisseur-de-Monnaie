@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TP1</string>
+    <string name="dollars">Dollars</string>
+    <string name="euro">Euro</string>
+    <string name="convertir">Convertir</string>
+    <string name="hint">hint</string>
+    <string name="parametres">Parametre</string>
+
+
+</resources>
