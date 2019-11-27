@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 */
                /* String query = "select "+ COLUMN_NAME_DEVISE + " "
                         + COLUMN_NAME_RATE + " from " + TABLE_NAME;
-                */Cursor cursor = db.rawQuery("SELECT * FROM " TABLE_NAME+ , null);
+                */Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME, null);
                 //Cursor cursor = db.rawQuery(query, null);
                 Log.d("cursor", cursor.toString());
                 if(cursor.moveToFirst()) {
