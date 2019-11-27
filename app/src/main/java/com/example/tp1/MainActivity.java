@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "First onCreate() calls", Toast.LENGTH_SHORT).show();
         dataXML = new HashMap<>();
         dataXML.put("EUR", 1.0);
-        rateSQL = new RateSQL(getApplicationContext());
+        //rateSQL = new RateSQL(getApplicationContext());
+        rateSQL = RateSQL.getInstance(getApplicationContext());
         rateTask = new AsyncTaskDATA(this);
         rateTask.execute();
 
