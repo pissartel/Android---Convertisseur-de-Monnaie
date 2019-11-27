@@ -189,20 +189,19 @@ public class MainActivity extends AppCompatActivity {
                 deviseSpinnerOut.setAdapter(adapter2);
 
                 // MAJ SQL
-                /*Iterator dataIterator = dataXML.entrySet().iterator();
+                Iterator dataIterator = dataXML.entrySet().iterator();
 
                 while (dataIterator.hasNext()) {
                     Map.Entry mapElement = (Map.Entry)dataIterator.next();
 
                     ContentValues values = new ContentValues();
-                    values.put(KEY_DEVISE, (String)mapElement.getKey());
-                    values.put(KEY_RATE, (Double)mapElement.getValue());
+                    values.put(COLUMN_NAME_DEVISE, (String)mapElement.getKey());
+                    values.put(COLUMN_NAME_RATE, (Double)mapElement.getValue());
                     db.insert(TABLE_NAME, null,values);
-                }*/
-                ContentValues values = new ContentValues();
-                values.put(COLUMN_NAME_DEVISE, "EUR");
-                values.put(COLUMN_NAME_RATE, 1);
-                db.insert(TABLE_NAME, null,values);
+                    long newRowId  = db.insert(TABLE_NAME, null,values);
+                Log.e("DataBase", Long.toString(newRowId));
+
+                }
             }
             else {Log.e("Network", "error");}
         }
