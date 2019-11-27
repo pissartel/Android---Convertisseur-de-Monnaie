@@ -46,6 +46,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_DEVISE;
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_RATE;
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.TABLE_NAME;
+import static java.security.AccessController.getContext;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "First onCreate() calls", Toast.LENGTH_SHORT).show();
         dataXML = new HashMap<>();
         dataXML.put("EUR", 1.0);
+        rateSQL = new RateSQL(getApplicationContext());
         db = rateSQL.getWritableDatabase();
         rateTask = new AsyncTaskDATA(this);
         rateTask.execute();
