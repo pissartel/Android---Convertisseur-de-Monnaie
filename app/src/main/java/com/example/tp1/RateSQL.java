@@ -22,7 +22,7 @@ public class RateSQL extends SQLiteOpenHelper {
     private static RateSQL sInstance;
     public static final int DATABASE_VERSION = 1;
     private String DATABASE_PATH;
-    public static final String DATABASE_NAME = "DeviseRate5.db";
+    public static final String DATABASE_NAME = "deviserate.db";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE IF NOT EXISTS " + DeviseRateManager.DeviseRateEntry.TABLE_NAME + " (" +
                     DeviseRateManager.DeviseRateEntry._ID + " INTEGER PRIMARY KEY," +

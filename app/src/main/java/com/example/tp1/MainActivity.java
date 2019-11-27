@@ -197,14 +197,14 @@ public class MainActivity extends AppCompatActivity {
                     values.put(COLUMN_NAME_RATE, (Double)mapElement.getValue());
                     db.insert(TABLE_NAME, null,values);
                     long newRowId  = db.insert(TABLE_NAME, null,values);
-                //Log.d("DataBase", Long.toString(newRowId));
+                Log.d("DataBase", Long.toString(newRowId));
 
                 }
             }
             else {
                 Log.e("Network", "no network reachable");
                 db = rateSQL.getReadableDatabase();
-                String[] projection = {
+               /* String[] projection = {
                         BaseColumns._ID,
                         COLUMN_NAME_DEVISE,
                         COLUMN_NAME_RATE
@@ -228,15 +228,28 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d("DataBase Read ", projection.toString());
                 Log.d("DataBase Read ", selectionArgs.toString());
+                */
+               /* String query = "select "+ COLUMN_NAME_DEVISE + " "
+                        + COLUMN_NAME_RATE + " from " + TABLE_NAME;
+                */Cursor cursor = db.rawQuery("SELECT * FROM " TABLE_NAME+ , null);
+                //Cursor cursor = db.rawQuery(query, null);
+                Log.d("cursor", cursor.toString());
+                if(cursor.moveToFirst()) {
+                    do {
+                        // you are creating map here but not adding this map to list
+                        dataXML.put(cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DEVISE)),
+                                    cursor.getDouble(cursor.getColumnIndex(COLUMN_NAME_RATE)));
 
-
-                List itemIds = new ArrayList<>();
-                while(cursor.moveToNext()) {
-                    long itemId = cursor.getLong(
-                            cursor.getColumnIndexOrThrow(RateSQL.DeviseRateManager.DeviseRateEntry._ID));
-                    itemIds.add(itemId);
+                    } while (cursor.moveToNext());
                 }
-                Log.d("DataBase ids", itemIds.toString());
+                db.close();
+
+                Log.d("hashmap", dataXML.toString());
+                List<String> keys = new ArrayList<>(dataXML.keySet());
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this.activity, android.R.layout.simple_spinner_item, keys);
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                deviseSpinnerIn.setAdapter(adapter2);
+                deviseSpinnerOut.setAdapter(adapter2);
 
 
             }
