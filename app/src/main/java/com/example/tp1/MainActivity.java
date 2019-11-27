@@ -43,9 +43,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import static com.example.tp1.RateSQL.KEY_DEVISE;
-import static com.example.tp1.RateSQL.KEY_RATE;
-import static com.example.tp1.RateSQL.TABLE_NAME;
+import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_DEVISE;
+import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_RATE;
+import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.TABLE_NAME;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -79,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "First onCreate() calls", Toast.LENGTH_SHORT).show();
         dataXML = new HashMap<>();
         dataXML.put("EUR", 1.0);
-        rateSQL = RateSQL.getInstance(getApplicationContext());
         db = rateSQL.getWritableDatabase();
         rateTask = new AsyncTaskDATA(this);
         rateTask.execute();
@@ -198,8 +198,8 @@ public class MainActivity extends AppCompatActivity {
                     db.insert(TABLE_NAME, null,values);
                 }*/
                 ContentValues values = new ContentValues();
-                values.put(KEY_DEVISE, "EUR");
-                values.put(KEY_RATE, 1);
+                values.put(COLUMN_NAME_DEVISE, "EUR");
+                values.put(COLUMN_NAME_RATE, 1);
                 db.insert(TABLE_NAME, null,values);
             }
             else {Log.e("Network", "error");}

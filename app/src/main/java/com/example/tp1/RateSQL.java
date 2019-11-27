@@ -21,8 +21,8 @@ public class RateSQL extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DeviseRateManager.DeviseRateEntry.TABLE_NAME + " (" +
                     DeviseRateManager.DeviseRateEntry._ID + " INTEGER PRIMARY KEY," +
-                    DeviseRateManager.DeviseRateEntry.COLUMN_NAME_TITLE + " TEXT," +
-                    DeviseRateManager.DeviseRateEntry.COLUMN_NAME_SUBTITLE + " TEXT)";
+                    DeviseRateManager.DeviseRateEntry.COLUMN_NAME_DEVISE + " TEXT," +
+                    DeviseRateManager.DeviseRateEntry.COLUMN_NAME_RATE + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DeviseRateManager.DeviseRateEntry.TABLE_NAME;
@@ -57,8 +57,8 @@ public class RateSQL extends SQLiteOpenHelper {
         /* Inner class that defines the table contents */
         public class DeviseRateEntry implements BaseColumns {
             public static final String TABLE_NAME = "deviserate";
-            public static final String COLUMN_NAME_TITLE = "devise";
-            public static final String COLUMN_NAME_SUBTITLE = "rate";
+            public static final String COLUMN_NAME_DEVISE = "devise";
+            public static final String COLUMN_NAME_RATE = "rate";
         }
     }
 
