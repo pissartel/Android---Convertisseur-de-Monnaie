@@ -7,11 +7,13 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -82,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         dataXML = new HashMap<>();
         dataXML.put("EUR", 1.0);
         rateSQL = new RateSQL(getApplicationContext());
-        db = rateSQL.getWritableDatabase();
         rateTask = new AsyncTaskDATA(this);
         rateTask.execute();
 
@@ -173,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("except1", e.getMessage());
                 }
             }
-
             return null;
         }
 
@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 deviseSpinnerOut.setAdapter(adapter2);
 
                 // MAJ SQL
+                db = rateSQL.getWritableDatabase();
                 Iterator dataIterator = dataXML.entrySet().iterator();
 
                 while (dataIterator.hasNext()) {
@@ -199,11 +200,49 @@ public class MainActivity extends AppCompatActivity {
                     values.put(COLUMN_NAME_RATE, (Double)mapElement.getValue());
                     db.insert(TABLE_NAME, null,values);
                     long newRowId  = db.insert(TABLE_NAME, null,values);
-                Log.e("DataBase", Long.toString(newRowId));
+                Log.d("DataBase", Long.toString(newRowId));
 
                 }
             }
-            else {Log.e("Network", "error");}
+            else {
+                Log.e("Network", "no network reachable");
+                db = rateSQL.getReadableDatabase();
+                String[] projection = {
+                        BaseColumns._ID,
+                        COLUMN_NAME_DEVISE,
+                        COLUMN_NAME_RATE
+                };
+                String selection = COLUMN_NAME_DEVISE + " = ?";
+                String[] selectionArgs = { "My Title" };
+
+                String sortOrder =
+                        COLUMN_NAME_RATE + " DESC";
+
+                Cursor cursor = db.query(
+                        TABLE_NAME,   // The table to query
+                        projection,             // The array of columns to return (pass null to get all)
+                        selection,              // The columns for the WHERE clause
+                        selectionArgs,          // The values for the WHERE clause
+                        null,                   // don't group the rows
+                        null,                   // don't filter by row groups
+                        sortOrder               // The sort order
+                );
+
+
+                Log.d("DataBase Read ", projection.toString());
+                Log.d("DataBase Read ", selectionArgs.toString());
+
+
+                List itemIds = new ArrayList<>();
+                while(cursor.moveToNext()) {
+                    long itemId = cursor.getLong(
+                            cursor.getColumnIndexOrThrow(RateSQL.DeviseRateManager.DeviseRateEntry._ID));
+                    itemIds.add(itemId);
+                }
+                Log.d("DataBase ids", itemIds.toString());
+
+
+            }
         }
 
         public boolean isOnline() {
