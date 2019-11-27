@@ -14,15 +14,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class RateSQL extends SQLiteOpenHelper {
 
-    private final Context mycontext;
+    //private final Context mycontext;
     private static RateSQL sInstance;
     public static final int DATABASE_VERSION = 1;
     private String DATABASE_PATH;
-    public static final String DATABASE_NAME = "DeviseRate.db";
+    public static final String DATABASE_NAME = "DeviseRate5.db";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + DeviseRateManager.DeviseRateEntry.TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + DeviseRateManager.DeviseRateEntry.TABLE_NAME + " (" +
                     DeviseRateManager.DeviseRateEntry._ID + " INTEGER PRIMARY KEY," +
                     DeviseRateManager.DeviseRateEntry.COLUMN_NAME_DEVISE + " TEXT," +
                     DeviseRateManager.DeviseRateEntry.COLUMN_NAME_RATE + " TEXT)";
@@ -34,29 +36,34 @@ public class RateSQL extends SQLiteOpenHelper {
     public RateSQL(Context context){
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.mycontext=context;
+       /* this.mycontext=context;
         String filesDir = context.getFilesDir().getPath(); // /data/data/com.package.nom/files/
         DATABASE_PATH = filesDir.substring(0, filesDir.lastIndexOf("/")) + "/databases/"; // /data/data/com.package.nom/databases/
-
-        // Si la bdd n'existe pas dans le dossier de l'app
-        if (!checkDatabase()) {
-            // copy db de 'assets' vers DATABASE_PATH
-            Log.d("SQL Database", "creation ");
-            copyDatabase();
-        }
+*/
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-       db.execSQL(SQL_CREATE_ENTRIES);
-
+        db.execSQL(SQL_CREATE_ENTRIES);
+       /* if (!checkDatabase()) {
+            // copy db de 'assets' vers DATABASE_PATH
+            Log.d("SQL DataBase ", "create entries ");
+            db.execSQL(SQL_CREATE_ENTRIES);
+            copyDatabase();
+        }*/
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
-    }
+        /*if (oldVersion < newVersion){
+            //Log.d("debug", "onUpgrade() : oldVersion=" + oldVersion + ",newVersion=" + newVersion);
+            mycontext.deleteDatabase(DATABASE_NAME);
+            copyDatabase();
+        }*/
+    } // onUpgrade
+
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
@@ -68,7 +75,7 @@ public class RateSQL extends SQLiteOpenHelper {
         return dbfile.exists();
     }
 
-    private void copyDatabase() {
+    /*private void copyDatabase() {
 
         final String outFileName = DATABASE_PATH + DATABASE_NAME;
 
@@ -127,7 +134,7 @@ public class RateSQL extends SQLiteOpenHelper {
         return sInstance;
     }
 
-
+*/
     public final class DeviseRateManager {
         // To prevent someone from accidentally instantiating the contract class,
         // make the constructor private.
