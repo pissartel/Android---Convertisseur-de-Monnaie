@@ -112,7 +112,12 @@ public class RateSQL extends SQLiteOpenHelper {
     } // copydatabase()
 
     public static synchronized RateSQL getInstance(Context context) {
-        if (sInstance == null) { sInstance = new RateSQL(context); }
+        if (sInstance == null) {
+            Log.d("Instance", "database not instanced yet");
+            sInstance = new RateSQL(context);
+        }
+        else Log.d("Instance", "Already an instance of database");
+
         return sInstance;
     }
 

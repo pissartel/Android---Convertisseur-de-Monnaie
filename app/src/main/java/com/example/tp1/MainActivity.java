@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Toast.makeText(getApplicationContext(), "Démarrage appli", Toast.LENGTH_LONG).show();
-        Log.e("onStart", "Start app");
+        Log.d("onStart", "Start app");
         convertButton = findViewById(R.id.button1);
         deviseInput = findViewById(R.id.Entree);
         deviseOutput = findViewById(R.id.Dollarsprint);
@@ -160,11 +160,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < NodelistDoc.getLength(); i++) {
                         Element ele = (Element) NodelistDoc.item(i);
                         if (!ele.getAttribute("currency").isEmpty()) {
-                            Log.d("element", ele.getAttribute("currency"));
-                            Log.d("rate", ele.getAttribute("rate"));
-                            Log.d("i:", String.valueOf(i));
                             dataXML.put(ele.getAttribute("currency"), Double.parseDouble(ele.getAttribute("rate")));
-                            Log.d("hashmap", dataXML.toString());
                         }
 
                     }
@@ -201,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     values.put(COLUMN_NAME_RATE, (Double)mapElement.getValue());
                     db.insert(TABLE_NAME, null,values);
                     long newRowId  = db.insert(TABLE_NAME, null,values);
-                Log.d("DataBase", Long.toString(newRowId));
+                //Log.d("DataBase", Long.toString(newRowId));
 
                 }
             }
