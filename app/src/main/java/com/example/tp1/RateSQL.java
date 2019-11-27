@@ -38,6 +38,12 @@ public class RateSQL extends SQLiteOpenHelper {
         String filesDir = context.getFilesDir().getPath(); // /data/data/com.package.nom/files/
         DATABASE_PATH = filesDir.substring(0, filesDir.lastIndexOf("/")) + "/databases/"; // /data/data/com.package.nom/databases/
 
+        // Si la bdd n'existe pas dans le dossier de l'app
+        if (!checkDatabase()) {
+            // copy db de 'assets' vers DATABASE_PATH
+            Log.d("SQL Database", "creation ");
+            copyDatabase();
+        }
     }
 
     @Override
@@ -62,7 +68,7 @@ public class RateSQL extends SQLiteOpenHelper {
         return dbfile.exists();
     }
 
-    private void copydatabase() {
+    private void copyDatabase() {
 
         final String outFileName = DATABASE_PATH + DATABASE_NAME;
 
@@ -75,7 +81,7 @@ public class RateSQL extends SQLiteOpenHelper {
             File pathFile = new File(DATABASE_PATH);
             if(!pathFile.exists()) {
                 if(!pathFile.mkdirs()) {
-                    Toast.makeText(mycontext, "Erreur : copydatabase(), pathFile.mkdirs()", Toast.LENGTH_SHORT).show();
+                    Log.e("SQL DataBase copy", "Erreur : pathFile.mkdirs() ");
                     return;
                 }
             }
@@ -97,7 +103,7 @@ public class RateSQL extends SQLiteOpenHelper {
         }
         catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(mycontext, "Erreur : copydatabase()", Toast.LENGTH_SHORT).show();
+            Log.e("SQL DataBase copy", "Erreur ");
         }
 
         // on greffe le numéro de version
@@ -106,17 +112,17 @@ public class RateSQL extends SQLiteOpenHelper {
             checkdb.setVersion(DATABASE_VERSION);
         }
         catch(SQLiteException e) {
-            // bdd n'existe pas
+            Log.e("SQL DataBase copy", "Databse doesn't exist ");
         }
 
     } // copydatabase()
 
     public static synchronized RateSQL getInstance(Context context) {
         if (sInstance == null) {
-            Log.d("Instance", "database not instanced yet");
+            Log.d("SQL Instance", "database not instanced yet");
             sInstance = new RateSQL(context);
         }
-        else Log.d("Instance", "Already an instance of database");
+        else Log.d("SQL Instance", "Already an instance of database");
 
         return sInstance;
     }
