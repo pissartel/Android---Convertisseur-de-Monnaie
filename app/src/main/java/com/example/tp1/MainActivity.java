@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         parameterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // intentRate = new Intent( MainActivity.this, RateListActivity.class );
+                db.close();
                 startActivityForResult(intentRate, 0);
             }});
     }

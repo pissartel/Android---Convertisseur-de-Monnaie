@@ -41,23 +41,13 @@ public class RateListActivity extends AppCompatActivity {
         rateSQL = new RateSQL(getApplicationContext());
         dataRates = new HashMap<>();
 
-        // Init intent
-        intentRateManager = new Intent(RateListActivity.this, RateManagerActivity.class);
-
-
-
-        // Init listview
-        List<DeviseRate> deviseRates = generateDeviseRates(dataRates);
-        RateAdapter adapter = new RateAdapter(RateListActivity.this, deviseRates);
-        listView.setAdapter(adapter);
-
         // Listener for ratemanager
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
                 // TODO Auto-generated method stub
-
+                db.close();
                 Log.v("long clicked","pos: " + pos);
                 Bundle b = new Bundle();
                 String key = (String) dataRates.keySet().toArray()[pos];
@@ -71,16 +61,23 @@ public class RateListActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        // Init intent
+        intentRateManager = new Intent(RateListActivity.this, RateManagerActivity.class);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Toast.makeText(getApplicationContext(), "Appuyez longuement pour modifier le taux", Toast.LENGTH_LONG).show();
         // Reading database
         db = rateSQL.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME, null);
         Log.d("cursor view rate", cursor.toString());
+
+        // Init listview
+        List<DeviseRate> deviseRates = generateDeviseRates(dataRates);
+        RateAdapter adapter = new RateAdapter(RateListActivity.this, deviseRates);
+        listView.setAdapter(adapter);
 
         if(cursor.moveToFirst()) {
             do {
@@ -91,6 +88,8 @@ public class RateListActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
         }
         db.close();
+
+        Toast.makeText(getApplicationContext(), "Appuyez longuement pour modifier le taux", Toast.LENGTH_LONG).show();
     }
 
     private List<DeviseRate> generateDeviseRates(HashMap<String, Double> deviseRatesMap){
