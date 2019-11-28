@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".RateManagerActivity">
 
+    <TextView
+        android:id="@+id/devise"
+        android:layout_width="310dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="204dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.465"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout3"
+        android:layout_width="317dp"
+        android:layout_height="57dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/devise"
+        app:layout_constraintVertical_bias="0.204">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rateEntree"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/hint"
+            tools:layout_editor_absoluteX="87dp"
+            tools:layout_editor_absoluteY="142dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="137dp"
+        android:layout_height="48dp"
+        android:text="@string/Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout3"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
+        app:layout_constraintVertical_bias="0.407" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
