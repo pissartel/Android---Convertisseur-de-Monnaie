@@ -58,16 +58,6 @@ public class ViewRate extends AppCompatActivity {
         db.close();
 
         Log.d("hashmap view rate", dataRates.toString());
-       // List<String> devises = new ArrayList<>(dataRates.keySet());
-       // List<String> rates = new ArrayList<>();
-
-        //for (Double d:dataRates.values())
-         //   rates.add(d.toString());
-
-       //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewRate.this,
-        //        android.R.layout.simple_list_item_1, devises);
-        
-
         List<DeviseRate> deviseRates = genererDeviseRates(dataRates);
 
         RateAdapter adapter = new RateAdapter(ViewRate.this, deviseRates);
@@ -83,14 +73,9 @@ public class ViewRate extends AppCompatActivity {
         return deviseRates;
     }
 
-    //convertView est notre vue recyclée
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        //Android nous fournit un convertView null lorsqu'il nous demande de la créer
-        //dans le cas contraire, cela veux dire qu'il nous fournit une vue recyclée
         if(convertView == null){
-            //Nous récupérons notre row_tweet via un LayoutInflater,
-            //qui va charger un layout xml dans un objet View
             convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.devise_rate,parent, false);
         }
 
@@ -102,11 +87,10 @@ public class ViewRate extends AppCompatActivity {
             convertView.setTag(viewHolder);
         }
 
-        //nous renvoyons notre vue à l'adapter, afin qu'il l'affiche
-        //et qu'il puisse la mettre à recycler lorsqu'elle sera sortie de l'écran
         return convertView;
     }
 
+    /* Class representant l'affichage des donnees */
     class RateViewHolder{
         public TextView devise;
         public TextView rate;
@@ -141,7 +125,7 @@ public class ViewRate extends AppCompatActivity {
         }
     }
 
-    /* ADAPTER */
+    /* class ADAPTER */
     public class RateAdapter extends ArrayAdapter<DeviseRate> {
 
         public RateAdapter(Context context, List<DeviseRate> deviserates) {
@@ -163,10 +147,7 @@ public class ViewRate extends AppCompatActivity {
                 convertView.setTag(viewHolder);
             }
 
-            //getItem(position) va récupérer l'item [position] de la List<Tweet> tweets
             DeviseRate deviserate = getItem(position);
-
-            //il ne reste plus qu'à remplir notre vue
             viewHolder.devise.setText(deviserate.getDevise());
             viewHolder.rate.setText( Double.toString(deviserate.getRate()));
 
