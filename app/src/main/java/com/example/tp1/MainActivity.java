@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         dataXML = new HashMap<>();
         dataXML.put("EUR", 1.0);
         rateSQL = new RateSQL(getApplicationContext());
-        //rateSQL = RateSQL.getInstance(getApplicationContext());
         rateTask = new AsyncTaskDATA(this);
         rateTask.execute();
 
@@ -204,35 +203,7 @@ public class MainActivity extends AppCompatActivity {
             else {
                 Log.e("Network", "no network reachable");
                 db = rateSQL.getReadableDatabase();
-               /* String[] projection = {
-                        BaseColumns._ID,
-                        COLUMN_NAME_DEVISE,
-                        COLUMN_NAME_RATE
-                };
-                String selection = COLUMN_NAME_DEVISE + " = ?";
-                String[] selectionArgs = { "My Title" };
-
-                String sortOrder =
-                        COLUMN_NAME_RATE + " DESC";
-
-                Cursor cursor = db.query(
-                        TABLE_NAME,   // The table to query
-                        projection,             // The array of columns to return (pass null to get all)
-                        selection,              // The columns for the WHERE clause
-                        selectionArgs,          // The values for the WHERE clause
-                        null,                   // don't group the rows
-                        null,                   // don't filter by row groups
-                        sortOrder               // The sort order
-                );
-
-
-                Log.d("DataBase Read ", projection.toString());
-                Log.d("DataBase Read ", selectionArgs.toString());
-                */
-               /* String query = "select "+ COLUMN_NAME_DEVISE + " "
-                        + COLUMN_NAME_RATE + " from " + TABLE_NAME;
-                */Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME, null);
-                //Cursor cursor = db.rawQuery(query, null);
+                Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME, null);
                 Log.d("cursor", cursor.toString());
                 if(cursor.moveToFirst()) {
                     do {
@@ -250,8 +221,6 @@ public class MainActivity extends AppCompatActivity {
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 deviseSpinnerIn.setAdapter(adapter2);
                 deviseSpinnerOut.setAdapter(adapter2);
-
-
             }
         }
 
