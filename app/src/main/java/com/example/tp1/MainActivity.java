@@ -48,7 +48,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_DEVISE;
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_RATE;
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.TABLE_NAME;
-import static java.security.AccessController.getContext;
 
 
 public class MainActivity extends AppCompatActivity {

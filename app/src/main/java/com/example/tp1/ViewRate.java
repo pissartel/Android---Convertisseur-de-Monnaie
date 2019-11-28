@@ -73,7 +73,7 @@ public class ViewRate extends AppCompatActivity {
                 Bundle b = new Bundle();
                 String key = (String) dataRates.keySet().toArray()[pos];
                 Log.d("Selected devise", key);
-                Log.d("Selected rate", dataRates.get(key));
+                Log.d("Selected rate", Double.toString(dataRates.get(key)));
                 b.putString("devise", key);
                 b.putDouble("rate", dataRates.get(key));
                 intentRateManager.putExtras(b);
