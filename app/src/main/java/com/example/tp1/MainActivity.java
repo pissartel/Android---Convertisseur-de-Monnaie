@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(getApplicationContext(), "First onCreate() calls", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "First onCreate() calls", Toast.LENGTH_SHORT).show();
         dataXML = new HashMap<>();
         dataXML.put("EUR", 1.0);
         rateSQL = new RateSQL(getApplicationContext());
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Toast.makeText(getApplicationContext(), "Démarrage appli", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "Démarrage appli", Toast.LENGTH_LONG).show();
         Log.d("onStart", "Start app");
         convertButton = findViewById(R.id.button1);
         deviseInput = findViewById(R.id.Entree);
@@ -169,8 +169,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("except1", e.getMessage());
                 }
             }
-
-            else Toast.makeText(getApplicationContext(), "Mode Hors Ligne", Toast.LENGTH_LONG).show();
             return null;
         }
 
@@ -203,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 Log.e("Network", "no network reachable");
+                Toast.makeText(getApplicationContext(), "Mode Hors Ligne", Toast.LENGTH_LONG).show();
                 db = rateSQL.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME, null);
                 Log.d("cursor", cursor.toString());
