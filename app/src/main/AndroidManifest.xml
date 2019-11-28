@@ -15,7 +15,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".RateListActivity"></activity>
         <activity android:name=".RateManagerActivity" />
-        <activity android:name=".ViewRate" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

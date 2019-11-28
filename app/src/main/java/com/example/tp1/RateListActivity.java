@@ -33,14 +33,14 @@ public class RateListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_rate);
+        setContentView(R.layout.activity_rate_list);
 
         listView = (ListView) findViewById(R.id.listView);
         rateSQL = new RateSQL(getApplicationContext());
         dataRates = new HashMap<>();
 
         // Init intent
-        intentRateManager = new Intent(ViewRate.this, RateManagerActivity.class);
+        intentRateManager = new Intent(RateListActivity.this, RateManagerActivity.class);
 
         // Reading database
         db = rateSQL.getReadableDatabase();
@@ -59,7 +59,7 @@ public class RateListActivity extends AppCompatActivity {
 
         // Init listview
         List<DeviseRate> deviseRates = genererDeviseRates(dataRates);
-        RateAdapter adapter = new RateAdapter(ViewRate.this, deviseRates);
+        RateAdapter adapter = new RateAdapter(RateListActivity.this, deviseRates);
         listView.setAdapter(adapter);
 
         // Listener for ratemanager
