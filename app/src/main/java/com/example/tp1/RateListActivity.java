@@ -41,6 +41,30 @@ public class RateListActivity extends AppCompatActivity {
         rateSQL = new RateSQL(getApplicationContext());
         dataRates = new HashMap<>();
 
+        // Init intent
+        intentRateManager = new Intent(RateListActivity.this, RateManagerActivity.class);
+
+        // Reading database
+        db = rateSQL.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME, null);
+        Log.d("cursor view rate", cursor.toString());
+
+        if(cursor.moveToFirst()) {
+            do {
+                // you are creating map here but not adding this map to list
+                dataRates.put(cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DEVISE)),
+                        cursor.getDouble(cursor.getColumnIndex(COLUMN_NAME_RATE)));
+
+            } while (cursor.moveToNext());
+        }
+        //db.close();
+
+        // Init listview
+        List<DeviseRate> deviseRates = generateDeviseRates(dataRates);
+        RateAdapter adapter = new RateAdapter(RateListActivity.this, deviseRates);
+        listView.setAdapter(adapter);
+
+
         // Listener for ratemanager
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -62,8 +86,6 @@ public class RateListActivity extends AppCompatActivity {
             }
         });
 
-        // Init intent
-        intentRateManager = new Intent(RateListActivity.this, RateManagerActivity.class);
     }
 
     @Override
@@ -73,11 +95,6 @@ public class RateListActivity extends AppCompatActivity {
         db = rateSQL.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME, null);
         Log.d("cursor view rate", cursor.toString());
-
-        // Init listview
-        List<DeviseRate> deviseRates = generateDeviseRates(dataRates);
-        RateAdapter adapter = new RateAdapter(RateListActivity.this, deviseRates);
-        listView.setAdapter(adapter);
 
         if(cursor.moveToFirst()) {
             do {
@@ -90,6 +107,32 @@ public class RateListActivity extends AppCompatActivity {
         db.close();
 
         Toast.makeText(getApplicationContext(), "Appuyez longuement pour modifier le taux", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dataRates.clear();
+        db = rateSQL.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME, null);
+        Log.d("cursor view rate", cursor.toString());
+
+        if(cursor.moveToFirst()) {
+            do {
+                // you are creating map here but not adding this map to list
+                dataRates.put(cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DEVISE)),
+                        cursor.getDouble(cursor.getColumnIndex(COLUMN_NAME_RATE)));
+
+            } while (cursor.moveToNext());
+        }
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        db.close();
     }
 
     private List<DeviseRate> generateDeviseRates(HashMap<String, Double> deviseRatesMap){

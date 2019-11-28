@@ -65,4 +65,10 @@ public class RateManagerActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        db = rateSQL.getWritableDatabase();
+    }
 }
