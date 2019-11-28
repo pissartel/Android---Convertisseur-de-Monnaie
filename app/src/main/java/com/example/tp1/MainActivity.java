@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         deviseSpinnerOut = (Spinner)findViewById(R.id.spinner3);
         parameterButton = findViewById(R.id.param);
 
-
         intentRate = new Intent(MainActivity.this,RateListActivity.class);
 
         convertButton.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         parameterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentRate = new Intent( MainActivity.this, RateListActivity.class );
+               // intentRate = new Intent( MainActivity.this, RateListActivity.class );
                 startActivityForResult(intentRate, 0);
             }});
     }
@@ -162,10 +161,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     }
-
-
                 } catch (ParserConfigurationException | IOException | SAXException   e) {
-
                     Log.e("except1", e.getMessage());
                 }
             }
@@ -195,8 +191,7 @@ public class MainActivity extends AppCompatActivity {
                     values.put(COLUMN_NAME_RATE, (Double)mapElement.getValue());
                     db.insert(TABLE_NAME, null,values);
                     long newRowId  = db.insert(TABLE_NAME, null,values);
-                Log.d("DataBase", Long.toString(newRowId));
-
+                    Log.d("DataBase", Long.toString(newRowId));
                 }
             }
             else {
