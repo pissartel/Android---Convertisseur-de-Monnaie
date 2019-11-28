@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +83,12 @@ public class RateListActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(getApplicationContext(), "Appuyez longuement pour modifier le rate", Toast.LENGTH_LONG).show();
     }
 
     private List<DeviseRate> genererDeviseRates(HashMap<String, Double> deviseRatesMap){

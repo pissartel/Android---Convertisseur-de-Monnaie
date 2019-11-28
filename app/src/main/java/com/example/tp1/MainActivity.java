@@ -169,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("except1", e.getMessage());
                 }
             }
+
+            else Toast.makeText(getApplicationContext(), "Mode Hors Ligne", Toast.LENGTH_LONG).show();
             return null;
         }
 

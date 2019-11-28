@@ -11,6 +11,8 @@
         android:layout_width="310dp"
         android:layout_height="59dp"
         android:layout_marginTop="204dp"
+        android:textStyle="bold"
+        android:textSize="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.465"
         app:layout_constraintStart_toStartOf="parent"
