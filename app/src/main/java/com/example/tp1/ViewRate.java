@@ -1,37 +1,34 @@
 package com.example.tp1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_DEVISE;
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_RATE;
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.TABLE_NAME;
-import static java.security.AccessController.getContext;
 
 public class ViewRate extends AppCompatActivity {
 
     ListView listView;
     private RateSQL rateSQL;
     private SQLiteDatabase db;
-    HashMap<String, Double> dataRates = null;
+    private Intent intentRateManager = null;
+    private HashMap<String, Double> dataRates = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +38,9 @@ public class ViewRate extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         rateSQL = new RateSQL(getApplicationContext());
         dataRates = new HashMap<>();
+
+        // Init intent
+        intentRateManager = new Intent(ViewRate.this, RateManager.class);
 
         // Reading database
         db = rateSQL.getReadableDatabase();
@@ -57,11 +57,30 @@ public class ViewRate extends AppCompatActivity {
         }
         db.close();
 
-        Log.d("hashmap view rate", dataRates.toString());
+        // Init listview
         List<DeviseRate> deviseRates = genererDeviseRates(dataRates);
-
         RateAdapter adapter = new RateAdapter(ViewRate.this, deviseRates);
         listView.setAdapter(adapter);
+
+        // Listener for ratemanager
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                // TODO Auto-generated method stub
+
+                Log.v("long clicked","pos: " + pos);
+                Bundle b = new Bundle();
+                String key = (String) dataRates.keySet().toArray()[pos];
+                Log.d("Selected devise", key);
+                Log.d("Selected rate", dataRates.get(key));
+                b.putString("devise", key);
+                b.putDouble("rate", dataRates.get(key));
+                intentRateManager.putExtras(b);
+                startActivityForResult(intentRateManager, 0);
+                return true;
+            }
+        });
     }
 
     private List<DeviseRate> genererDeviseRates(HashMap<String, Double> deviseRatesMap){
