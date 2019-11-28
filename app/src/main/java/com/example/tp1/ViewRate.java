@@ -40,7 +40,7 @@ public class ViewRate extends AppCompatActivity {
         dataRates = new HashMap<>();
 
         // Init intent
-        intentRateManager = new Intent(ViewRate.this, RateManager.class);
+        intentRateManager = new Intent(ViewRate.this, RateManagerActivity.class);
 
         // Reading database
         db = rateSQL.getReadableDatabase();

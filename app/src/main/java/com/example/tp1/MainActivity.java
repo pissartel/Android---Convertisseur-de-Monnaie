@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         parameterButton = findViewById(R.id.param);
 
 
-        intentRate = new Intent(MainActivity.this,ViewRate.class);
+        intentRate = new Intent(MainActivity.this,RateListActivity.class);
 
         convertButton.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         parameterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentRate = new Intent( MainActivity.this, ViewRate.class );
+                intentRate = new Intent( MainActivity.this, RateListActivity.class );
                 startActivityForResult(intentRate, 0);
             }});
     }
