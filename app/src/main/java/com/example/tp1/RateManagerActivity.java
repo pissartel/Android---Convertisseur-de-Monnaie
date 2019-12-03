@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import static com.example.tp1.RateSQL.DATABASE_NAME;
+import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_DEVISE;
+import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.COLUMN_NAME_RATE;
 import static com.example.tp1.RateSQL.DeviseRateManager.DeviseRateEntry.TABLE_NAME;
 
 public class RateManagerActivity extends AppCompatActivity {
@@ -57,9 +60,19 @@ public class RateManagerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ContentValues cv = new ContentValues();
                 cv.put("devise",deviseStr); //These Fields should be your String values of actual column names
-                cv.put("rate", String.valueOf(rateInput.getText()));
-                int i = db.update(TABLE_NAME, cv, "_id="+id, null);
-                Log.d("RateManager i : ", Integer.toString(i));
+                cv.put("rate", Double.valueOf( rateInput.getText().toString()));
+                String request  = "UPDATE " + TABLE_NAME + " SET " + COLUMN_NAME_RATE
+                        + "=" +  rateInput.getText() + " WHERE " + COLUMN_NAME_DEVISE
+                        + "= \"" + deviseStr + "\" ";
+                Log.d("SQLITE update", request);
+
+                // Assign values for each Column.
+                String where="devise = ?";
+                db.update("LOGIN",cv, where, new String[]{deviseStr});
+
+                db.execSQL(request);
+               // int i = db.update(TABLE_NAME, cv, "_id="+id, null);
+               // Log.d("RateManager i : ", Integer.toString(i));
                 db.close();
                 onBackPressed();
             }
