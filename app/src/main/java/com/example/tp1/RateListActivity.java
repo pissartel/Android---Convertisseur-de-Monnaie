@@ -35,7 +35,7 @@ public class RateListActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Intent intentRateManager = null;
     private HashMap<String, Double> dataRates = null;
-
+    private boolean isOpenning = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +61,6 @@ public class RateListActivity extends AppCompatActivity {
 
             } while (cursor.moveToNext());
         }
-        //db.close();
 
         // Init listview
         List<DeviseRate> deviseRates = generateDeviseRates(dataRates);
@@ -109,19 +108,19 @@ public class RateListActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
         }
         db.close();
-
-        //Toast.makeText(getApplicationContext(), "Appuyez longuement pour modifier le taux", Toast.LENGTH_LONG).show();
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage("Alert message to be shown");
-
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+        if (isOpenning) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Info");
+            alertDialog.setMessage("Appuyez longuement sur une devise pour modifier son taux");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
+        isOpenning = false;
 
 
     }
