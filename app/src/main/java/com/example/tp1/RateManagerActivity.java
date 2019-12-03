@@ -35,6 +35,7 @@ public class RateManagerActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         saveButton = findViewById(R.id.saveButton);
         rateInput = findViewById(R.id.rateEntree);
         deviseTextView = findViewById(R.id.devise);
@@ -65,15 +66,9 @@ public class RateManagerActivity extends AppCompatActivity {
                         + "=" +  rateInput.getText() + " WHERE " + COLUMN_NAME_DEVISE
                         + "= \"" + deviseStr + "\" ";
                 Log.d("SQLITE update", request);
-
-                // Assign values for each Column.
-                String where="devise = ?";
-                db.update("LOGIN",cv, where, new String[]{deviseStr});
-
                 db.execSQL(request);
-               // int i = db.update(TABLE_NAME, cv, "_id="+id, null);
-               // Log.d("RateManager i : ", Integer.toString(i));
                 db.close();
+                //startActivityForResult(intentRate, 0);
                 onBackPressed();
             }
         });

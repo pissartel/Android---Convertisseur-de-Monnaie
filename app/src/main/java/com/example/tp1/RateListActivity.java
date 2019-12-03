@@ -1,7 +1,10 @@
 package com.example.tp1;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,7 +110,20 @@ public class RateListActivity extends AppCompatActivity {
         }
         db.close();
 
-        Toast.makeText(getApplicationContext(), "Appuyez longuement pour modifier le taux", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "Appuyez longuement pour modifier le taux", Toast.LENGTH_LONG).show();
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Alert message to be shown");
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+
     }
 
     @Override
@@ -125,6 +142,10 @@ public class RateListActivity extends AppCompatActivity {
 
             } while (cursor.moveToNext());
         }
+
+        List<DeviseRate> deviseRates = generateDeviseRates(dataRates);
+        RateAdapter adapter = new RateAdapter(RateListActivity.this, deviseRates);
+        listView.setAdapter(adapter);
 
     }
 

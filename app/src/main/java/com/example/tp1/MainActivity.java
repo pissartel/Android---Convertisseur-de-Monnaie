@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         parameterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // db.close();
+               db.close();
                 startActivityForResult(intentRate, 0);
             }});
     }
@@ -134,6 +134,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         db.close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // MAJ SQL
+        rateTask = new AsyncTaskDATA(this);
+        rateTask.execute();
     }
 
 
