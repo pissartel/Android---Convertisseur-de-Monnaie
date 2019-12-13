@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "817204265026",
-    "firebase_url": "https://projet-convertisseur.firebaseio.com",
-    "project_id": "projet-convertisseur",
-    "storage_bucket": "projet-convertisseur.appspot.com"
+    "project_number": "627449491499",
+    "firebase_url": "https://projet-convertisseur-bc687.firebaseio.com",
+    "project_id": "projet-convertisseur-bc687",
+    "storage_bucket": "projet-convertisseur-bc687.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:817204265026:android:efb269a14cbc6a4e9ceddb",
+        "mobilesdk_app_id": "1:627449491499:android:01d44f4fc4c320662c3a6e",
         "android_client_info": {
-          "package_name": "Projet.Convertisseur"
+          "package_name": "com.example.tp1"
         }
       },
       "oauth_client": [
         {
-          "client_id": "817204265026-4u93h0r1anaom9qritlprtrqcms0vum3.apps.googleusercontent.com",
+          "client_id": "627449491499-nhug61a13sj7tq7q9esefieik9dc1fe1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBY1-8naFJLLbpC5ZFNulqh4R7g17P7OL0"
+          "current_key": "AIzaSyCr2KlvUTImpw7eGnrQr3ukyy7lYNAiJW0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "817204265026-4u93h0r1anaom9qritlprtrqcms0vum3.apps.googleusercontent.com",
+              "client_id": "627449491499-nhug61a13sj7tq7q9esefieik9dc1fe1.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
