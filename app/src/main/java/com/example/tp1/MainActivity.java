@@ -145,6 +145,11 @@ public class MainActivity extends AppCompatActivity {
         rateTask.execute();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        db.close();
+    }
 
     private class AsyncTaskDATA extends AsyncTask {
 
