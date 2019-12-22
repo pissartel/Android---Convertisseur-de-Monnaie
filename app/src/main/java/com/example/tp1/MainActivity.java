@@ -22,6 +22,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -62,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     public Spinner deviseSpinnerIn = null;
     public Spinner deviseSpinnerOut = null;
 
+    private RateData mRateData;
+
     double val = 0;
 
     URL myUrl;
@@ -72,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
     Intent intentRate = null;
 
-    private RateSQL rateSQL;
-    private SQLiteDatabase db;
+   // private RateSQL rateSQL;
+    //private SQLiteDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(getApplicationContext(), "First onCreate() calls", Toast.LENGTH_SHORT).show();
         dataXML = new HashMap<>();
         dataXML.put("EUR", 1.0);
-        rateSQL = new RateSQL(getApplicationContext());
+     //   rateSQL = new RateSQL(getApplicationContext());
         rateTask = new AsyncTaskDATA(this);
         rateTask.execute();
 
@@ -99,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         deviseSpinnerIn = (Spinner)findViewById(R.id.spinner4);
         deviseSpinnerOut = (Spinner)findViewById(R.id.spinner3);
         parameterButton = findViewById(R.id.param);
+
+        mRateData = new RateData();
+
 
         intentRate = new Intent(MainActivity.this,RateListActivity.class);
 
@@ -125,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         parameterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               db.close();
+           //    db.close();
                 startActivityForResult(intentRate, 0);
             }});
     }
@@ -133,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        db.close();
+       // db.close();
     }
 
     @Override
@@ -148,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        db.close();
+       // db.close();
     }
 
     private class AsyncTaskDATA extends AsyncTask {
@@ -192,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            if (statusNetwork) {
+            if (statusNetwork) {    // Si connexion -> On rajoute dans la base
                 Log.d("hashmap", dataXML.toString());
                 List<String> keys = new ArrayList<>(dataXML.keySet());
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this.activity, android.R.layout.simple_spinner_item, keys);
@@ -200,23 +209,18 @@ public class MainActivity extends AppCompatActivity {
                 deviseSpinnerIn.setAdapter(adapter2);
                 deviseSpinnerOut.setAdapter(adapter2);
 
-                // MAJ SQL
-                db = rateSQL.getWritableDatabase();
+                // Firebase
+                mRateData.getInstance();
                 Iterator dataIterator = dataXML.entrySet().iterator();
-
+                int id = 0;
                 while (dataIterator.hasNext()) {
                     Map.Entry mapElement = (Map.Entry)dataIterator.next();
-
-                    ContentValues values = new ContentValues();
-                    values.put(COLUMN_NAME_DEVISE, (String)mapElement.getKey());
-                    values.put(COLUMN_NAME_RATE, (Double)mapElement.getValue());
-                    db.insert(TABLE_NAME, null,values);
-                    long newRowId  = db.insert(TABLE_NAME, null,values);
-                    Log.d("DataBase", Long.toString(newRowId));
+                    mRateData.writeNewRate(Integer.toString(id), (String)mapElement.getKey(), (Double)mapElement.getValue());
+                    id++;
                 }
             }
             else {
-                Log.e("Network", "no network reachable");
+                /*Log.e("Network", "no network reachable");
                 Toast.makeText(getApplicationContext(), "Mode Hors Ligne", Toast.LENGTH_LONG).show();
                 db = rateSQL.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM " +TABLE_NAME, null);
@@ -229,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
 
                     } while (cursor.moveToNext());
                 }
-                db.close();
+                db.close();*/
 
                 Log.d("hashmap", dataXML.toString());
                 List<String> keys = new ArrayList<>(dataXML.keySet());
@@ -261,5 +265,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-}
 
+}
